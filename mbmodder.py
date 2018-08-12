@@ -2,56 +2,47 @@
 
 ## Mount and Blade: Warband modder
 
-import os, shutil, re
+__version = "0.1.0"
+__doc__ =\
+"""Mount and Blade: Warband modder {version}.
+
+Usage:
+  mbmodder.py [-h] [-d directory] battle_size <num_units>
+
+Options:
+  -h --help                     Show this
+  -d --warband-dir directory    Specify Warband install directory
+  
+
+""".format(version=__version)
+
+import os
 
 import dirdetector
+from mods import *
+
+from docopt import docopt
+if __name__ == "__main__":
+    arguments = docopt(__doc__,version=__version)
+    #print arguments
 
 # get user's home directory
 user_dir = os.path.expanduser("~")
 
-# set Mount and Blade config directory (rgl_config.txt is here)
-if os.name == "win32": # not a Windows user so correct this if it's wrong
-    config_dir = user_dir+"\\My Documents\\Mount&Blade Warband"
+config_dir = dirdetector.detect_cfg()
+if __name__ == "__main__":
+    if arguments.has_key("--warband-dir") and arguments["--warband-dir"] != None:
+        warband_dir = arguments["--warband-dir"] if dirdetector.is_valid_dir(arguments["--warband-dir"]) else 0
+        if not warband_dir:
+            print "Not a valid Warband directory -- exiting"
+        while warband_dir[-1] == "/" or warband_dir[-1] == "\\":
+            warband_dir = warband_dir[:-1]
+    else:
+        warband_dir = dirdetector.detect_wb()
 else:
-    config_dir = user_dir+"/.mbwarband"
+    warband_dir = dirdetector.detect_wb()
+if not warband_dir:
+    print "Warband not detected. Please specify install location with -d"
 
-warband_dir = dirdetector.detect()
-
-def battle_size(units,config_dir=config_dir):
-    """Sets numbers of units allowed in a battle at once."""
-    # num_units = 30 + 120*battle_size
-    battle_size = round((units-30)/120.,4)
-    print "Setting battle_size to '{num:1.4f}'...".format(num=battle_size)
-
-    # Back up the config file
-    config_file = config_dir+"/rgl_config.txt"
-    shutil.copy(config_file,config_file+".bak")
-
-    # Open it and read it
-    with open(config_dir+"/rgl_config.txt","r") as config_file:
-        config_data = config_file.read().split("\n")
-    if os.name == "posix": # convert line endings if need be
-        config_data = [i.strip("\r") for i in config_data]
-    
-    # Find and replace the correct line
-    found = False
-    regex = re.compile("^battle_size = .*$")
-    for line in range(len(config_data)):
-        if regex.match(config_data[line]):
-            print "Found line, replacing..."
-            new_line = "battle_size = {num:1.4f}".format(num=battle_size)
-            config_data[line] = new_line
-            found = True
-            break
-    if not found:
-        print "Unable to find correct line. Has config been manually edited before?"
-        return
-
-    # Reconstruct config file
-    config_data = "\n".join(config_data)
-
-    # Write to file
-    with open(config_dir+"/rgl_config.txt","w") as config_file:
-        config_file.write(config_data)
-
-    print "Replaced!"
+if arguments["battle_size"]:
+    battle_sizer.battle_size(arguments["<num_units>"],config_dir)

@@ -7,7 +7,7 @@ import os
 
 user_dir = os.path.expanduser("~")
 
-def detect():
+def detect_wb():
     DEFAULTS = [
         user_dir+"/GOG Games/Mount Blade Warband",
         #"steam/Steamapps/Common/mount and blade/modules",
@@ -22,16 +22,16 @@ def detect():
         if os.path.isdir(path) and is_valid_dir(path):
             print "Detected Warband at '{path}'".format(path=path)
             return path
-    valid = False
-    while not valid: # If not autodetected, ask for input
-        warband_dir = raw_input("Could not autodetect Warband installation.\nPlease enter Warband installation directory:\n> ")
-        while not os.path.isdir(warband_dir):
-            print "Invalid directory"
-            warband_dir = raw_input("Enter Mount and Blade: Warband directory:\n> ")
-        while warband_dir[:-1] == "/" or warband_dir[:-1] == "\\":
-            warband_dir = warband_dir[:-1]
-        valid = is_valid_dir(warband_dir)
-    return warband_dir
+    return False
 
 def is_valid_dir(warband_dir):
     return os.path.isdir(warband_dir+"/game")
+
+def detect_cfg():
+    # set Mount and Blade config directory (rgl_config.txt is here)
+    if os.name == "win32": # not a Windows user so correct this if it's wrong
+        config_dir = user_dir+"\\My Documents\\Mount&Blade Warband"
+    else:
+        config_dir = user_dir+"/.mbwarband"
+
+    return config_dir
