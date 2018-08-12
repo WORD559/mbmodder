@@ -43,4 +43,5 @@ def battle_size(units,config_dir):
 
     print "Replaced!"
 
+# Create the mod with the function
 mod = Mod(battle_size)

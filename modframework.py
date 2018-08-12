@@ -1,7 +1,8 @@
-## mbmodder mod framework
+"""mbmodder mod framework. Mods must be created as a Mod object called "mod"."""
 
 class Mod(object):
     def __init__(self,function,name=None):
+        """Takes a function to use in order to mod the game. If the config dir is required, use the argument "config_dir". If the M&B installation dir is required, use "warband_dir"."""
         self.name = name if name != None else function.func_code.co_name
         self.function = function
         self.docopt = ""
