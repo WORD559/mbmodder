@@ -7,15 +7,15 @@ import os
 
 user_dir = os.path.expanduser("~")
 
-DEFAULTS = [
-    user_dir+"/GOG Games/Mount Blade Warband",
-    ]
-WIN_DEFAULTS = [
-    "C:\\Program Files (x86)\\Mount and Blade",
-    "C:\\Program Files\\Mount and Blade",
-    ]
-
 def detect():
+    DEFAULTS = [
+        user_dir+"/GOG Games/Mount Blade Warband",
+        #"steam/Steamapps/Common/mount and blade/modules",
+    ]
+    WIN_DEFAULTS = [
+        "C:\\Program Files (x86)\\Mount and Blade",
+        "C:\\Program Files\\Mount and Blade",
+    ]
     if os.name == "win32":
         DEFAULTS += WIN_DEFAULTS
     for path in DEFAULTS:
