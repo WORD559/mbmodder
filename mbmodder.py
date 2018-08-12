@@ -2,24 +2,29 @@
 
 ## Mount and Blade: Warband modder
 
+import os
+
+import dirdetector
+import mods
+
 __version = "0.1.0"
+options = "[-d directory]"
+usages = ""
+for mod in mods.__all__:
+    mod = mods.__dict__[mod].mod
+    usages += (mod.docopt + "\n")
 __doc__ =\
 """Mount and Blade: Warband modder {version}.
 
 Usage:
-  mbmodder.py [-h] [-d directory] battle_size <num_units>
+  {usages}
 
 Options:
   -h --help                     Show this
   -d --warband-dir directory    Specify Warband install directory
   
 
-""".format(version=__version)
-
-import os
-
-import dirdetector
-from mods import *
+""".format(version=__version,usages=usages).format(options=options)
 
 from docopt import docopt
 if __name__ == "__main__":
@@ -44,5 +49,15 @@ else:
 if not warband_dir:
     print "Warband not detected. Please specify install location with -d"
 
-if arguments["battle_size"]:
-    battle_sizer.battle_size(arguments["<num_units>"],config_dir)
+for mod in mods.__all__:
+    mod = mods.__dict__[mod].mod
+    if arguments.has_key(mod.name) and arguments[mod.name]:
+        args = {}
+        for arg in mod.arg_names:
+            args[arg] = arguments["<"+arg+">"]
+        if mod.needs_config:
+            args["config_dir"] = config_dir
+        if mod.needs_warband:
+            args["warband_dir"] = warband_dir
+        mod.function(**args)
+        break

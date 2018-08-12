@@ -1,5 +1,10 @@
-import os
+import importlib,os
 
-__all__ = os.listdir(os.path.dirname(__file__))
+__globals = globals()
 
-__all__ = [i.strip(".py") for i in __all__ if i != "__init__.py" and i[-4:] != ".pyc" and i != "modframework.py"]
+mods = os.listdir(os.path.dirname(__file__))
+
+__all__ = [i.strip(".py") for i in mods if i != "__init__.py" and i[-4:] != ".pyc" and i != "modframework.py"]
+
+for mod in __all__:
+    __globals[mod] = importlib.import_module('.' + mod, package=__name__)

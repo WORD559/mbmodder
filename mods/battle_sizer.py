@@ -2,6 +2,8 @@
 
 import os, shutil, re
 
+from modframework import Mod
+
 def battle_size(units,config_dir):
     """Sets numbers of units allowed in a battle at once."""
     # num_units = 30 + 120*battle_size
@@ -40,3 +42,5 @@ def battle_size(units,config_dir):
         config_file.write(config_data)
 
     print "Replaced!"
+
+mod = Mod(battle_size)
