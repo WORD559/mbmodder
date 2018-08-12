@@ -10,15 +10,21 @@ user_dir = os.path.expanduser("~")
 DEFAULTS = [
     user_dir+"/GOG Games/Mount Blade Warband",
     ]
+WIN_DEFAULTS = [
+    "C:\\Program Files (x86)\\Mount and Blade",
+    "C:\\Program Files\\Mount and Blade",
+    ]
 
 def detect():
+    if os.name == "win32":
+        DEFAULTS += WIN_DEFAULTS
     for path in DEFAULTS:
         if os.path.isdir(path) and is_valid_dir(path):
             print "Detected Warband at '{path}'".format(path=path)
             return path
     valid = False
     while not valid: # If not autodetected, ask for input
-        warband_dir = raw_input("Enter Mount and Blade: Warband directory:\n> ")
+        warband_dir = raw_input("Could not autodetect Warband installation.\nPlease enter Warband installation directory:\n> ")
         while not os.path.isdir(warband_dir):
             print "Invalid directory"
             warband_dir = raw_input("Enter Mount and Blade: Warband directory:\n> ")
