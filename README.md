@@ -1,7 +1,7 @@
 # mbmodder
 Mount and Blade: Warband config/module editor
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/21c15b8fd2c6a7684331/maintainability)](https://codeclimate.com/github/WORD559/mbmodder/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/21c15b8fd2c6a7684331/maintainability)](https://codeclimate.com/github/WORD559/mbmodder/maintainability) [![Issue Count](https://codeclimate.com/github/WORD559/mbmodder/badges/issue_count.svg)](https://codeclimate.com/github/WORD559/mbmodder)
 
 This is a modular CLI tool to allow simple modification of Mount and Blade: Warband. Game mods can be easily created and added and command line bindings will be automatically generated for new mods, allowing external developers the freedom to make their own tweaks.
 
