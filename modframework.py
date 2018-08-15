@@ -8,14 +8,14 @@ class Mod(object):
         self.docopt = ""
         self.num_args = function.func_code.co_argcount
         self.arg_names = list(function.func_code.co_varnames[:self.num_args])
-        if "config_dir" in self.arg_names:
-            self.needs_config = True
-            self.arg_names.remove("config_dir")
-        else: self.needs_config = False
-        if "warband_dir" in self.arg_names:
-            self.needs_warband = True
-            self.arg_names.remove("warband_dir")
-        else: self.needs_warband = False
+
+        self.needs_config = "config_dir" in self.arg_names
+        self.needs_warband = "warband_dir" in self.arg_names
+        for arg in ["config_dir","warband_dir"]:
+            try:
+                self.arg_names.remove(arg)
+            except:
+                pass
         
         self.generate_docopt()
 
