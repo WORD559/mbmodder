@@ -19,7 +19,7 @@ __doc__ =\
 """Mount and Blade: Warband modder {version}.
 
 Usage:
-  {usages}
+{usages}
 
 Options:
   -h --help                     Show this
